@@ -20,4 +20,8 @@
 # app.use
 
 - global middleware를 생성해줌.
-- app.use(someMiddleware); // app.get보다 먼저 사용하여야 함에 주의!
+- app.use(so meMiddleware); // app.get보다 먼저 사용하여야 함에 주의!
+
+# 라우터란?
+
+url은 /로 나누어져 있는데 카테고리별로 라우터를 매칭해줄 수 있다.
