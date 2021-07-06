@@ -10,3 +10,14 @@
 - express를 이용해 서버 객체를 생성
 - app.listen(포트번호, 콜백함수) 메소드를 사용=> request대기중..
 
+# Middleware
+
+- req, res, next 3개의 인자를 가짐.
+- 모든 controller 들은 middleware가 될 수 있다.
+- res객체를 반환하지 않는(=finalware가 아닌) controller들이 middleware이다.
+- app,get(url, controller) 에서 controller를 가변인자로 받아 여러 개가 와도 허용된다.
+
+# app.use
+
+- global middleware를 생성해줌.
+- app.use(someMiddleware); // app.get보다 먼저 사용하여야 함에 주의!
