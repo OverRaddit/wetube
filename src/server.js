@@ -10,12 +10,12 @@ const app = express();
 const logger = morgan("dev");
 app.use(logger);
 
+app.set("view engine", "pug");
+app.set("views", process.cwd() + "/src/views");
 app.use("/", globalRouter);
 app.use("/users", userRouter);
 app.use("/videos", videoRouter);
 
-
-//app.get("/", gossipmiddleware, handleHome);
 
 const handleListening = () => console.log("Server listening on port 4000🪄");
 
