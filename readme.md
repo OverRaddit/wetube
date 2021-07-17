@@ -29,3 +29,18 @@ url은 /로 나누어져 있는데 카테고리별로 라우터를 매칭해줄 
 # 상대주소와 절대주소
 href = "/edit" => 절대경로로 접근됨
 href = "edit" => 상대경로로 접근됨
+
+# mongoose
+nodejs와 mongodb를 이어주는 다리역할
+
+
+# promise 객체와 callback에 대한 이해
+
+- callback은 비동기적인 함수에 대한 후속 조치이다. 비동기적인 함수의 실행이 끝났을 때 후작업을 처리해 주는 것이 callback의 역할이다.
+
+- callback의 존재는 javascript 언어에서 먼저쓰인 코드가 반드시 먼저 실행되지는 않을 수 있다는 점을 상기시켜준다.
+
+- promise객체는 callback의 업그레이드 버전이다.
+
+- (promise방식)비동기적인 함수에 async, 비동기적인 코드에 await을 붙임으로써 강제적으로 동기적인 코드로 만들어 줄 수 있다.
+

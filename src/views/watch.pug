@@ -3,5 +3,7 @@ extends base.pug
 block content
 	if video.views == 1
 	else
-	h3 #{video.views} #{video.views == 1 ? "view" : "views"}
-	a(href="/edit") Edit Video &rarr;
+	p=video.description
+	small=video.createdAt
+	//h3 #{video.views} #{video.views == 1 ? "view" : "views"}
+	a(href=`${video.id}/edit`) Edit Video &rarr;
