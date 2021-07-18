@@ -1,5 +1,8 @@
 import mongoose from "mongoose";
 
+export const formatHashtags = (hashtags) =>
+	hashtags.split(",").map((word) => word.startsWith('#') ? word : `#${word}`);
+
 const videoSchema = new mongoose.Schema({
 	title: {type: String, required:true },
 	description: {type: String, required:true },
@@ -11,11 +14,9 @@ const videoSchema = new mongoose.Schema({
 	},
 });
 
-videoSchema.pre("save", async function(){
-	this.hashtags = this.hashtags[0]
-		.split(",")
-		.map((word) => word.startsWith('#') ? word : `#${word}`);
-});
-
+// Video.formatHashtags(hashtags) 로 사용할 수 있음!!!
+videoSchema.static('formatHashtags', function(hashtags) {
+	return hashtags.split(",").map((word) => word.startsWith('#') ? word : `#${word}`)
+})
 const movieModel = mongoose.model("Video", videoSchema);
 export default movieModel;

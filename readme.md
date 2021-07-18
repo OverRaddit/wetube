@@ -44,3 +44,9 @@ nodejs와 mongodb를 이어주는 다리역할
 
 - (promise방식)비동기적인 함수에 async, 비동기적인 코드에 await을 붙임으로써 강제적으로 동기적인 코드로 만들어 줄 수 있다.
 
+# req.params vs req.query
+
+- url에서 /videos/32 => id가 나와야할 위치에 32값이 들어감(params)
+
+- url에서 /search?title=helo => title 키에 helo 값이 들어감(query)
+
