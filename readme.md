@@ -50,3 +50,18 @@ nodejs와 mongodb를 이어주는 다리역할
 
 - url에서 /search?title=helo => title 키에 helo 값이 들어감(query)
 
+# search 함수
+
+Regex객체를 사용한 부분이 인상적이다. 유용하게 사용할 수 있을 것 같다.
+
+# 7.0
+- 로그인 구현
+- 로그인한 유저를 어떻게 기억할 것인가?
+
+1. models/User.js에서 유저 모델 및 스키마 생성
+
+2. init.js에서 import
+
+# query날릴때 or조건
+							1번조건      2번조건
+await User.exists({$or: [{username}, {email}] });
