@@ -65,3 +65,7 @@ Regex객체를 사용한 부분이 인상적이다. 유용하게 사용할 수 �
 # query날릴때 or조건
 							1번조건      2번조건
 await User.exists({$or: [{username}, {email}] });
+
+# statuscode
+
+# session
