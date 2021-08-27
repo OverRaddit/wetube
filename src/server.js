@@ -1,3 +1,4 @@
+console.log(process.env.COOKIE_SECRET);
 import express, { urlencoded } from "express";
 import morgan from "morgan";
 import rootRouter from "./routers/rootRouter";
@@ -16,12 +17,14 @@ app.use(express.urlencoded({ extended: true }));
 // Cookie란 백엔드가 브라우저에게 주는 정보이다.
 // 브라우저는 매 요청시마다 request에 쿠키를 덧붙이게 된다.
 app.use(session({
-	secret: "Hello!",
-	resave: true,
-	saveUninitialized:true,
+	secret: process.env.COOKIE_SECRET,
+	resave: false,
+	saveUninitialized:false,
+	cookie: {
+		maxAge: 20000,
+	},
 	store: MongoStore.create({
-		mongoUrl: "mongodb://127.0.0.1:27017/wetube"
-		//client: connection.client
+		mongoUrl: process.env.DB_URL
 	})
 }))
 
