@@ -1,4 +1,3 @@
-console.log(process.env.COOKIE_SECRET);
 import express, { urlencoded } from "express";
 import morgan from "morgan";
 import rootRouter from "./routers/rootRouter";
