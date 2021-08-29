@@ -1,4 +1,5 @@
 import User from "../models/User";
+import fetch from "node-fetch";
 import bcrypt from "bcrypt";
 
 export const getJoin = (req, res) => res.render("join", {pageTitle: "Join"});
@@ -82,14 +83,31 @@ export const finishGithubLogin = async (req, res) => {
 	};
 	const params = new URLSearchParams(config).toString();
 	const FullURL = `${baseURL}?${params}`;
-	const data = await fetch(FullURL, {
-		method:"POST",
-		headers: {
-			Accept: "application/json",
-		}
-	});
-	const json = await data.json();
-	console.log(json);
+	const tokenRequest = await (
+		await fetch(FullURL, {
+			method:"POST",
+			headers: {
+				Accept: "application/json",
+			}
+		})
+	).json();
+	if ("access_token" in tokenRequest){
+		// access api
+		const {access_token} = tokenRequest;
+		const userRequest = await (
+			await fetch("https://api.github.com/user", {
+				method: "GET",
+				headers: {
+					Authorization: `token ${access_token}`,
+				},
+			})
+		).json();
+		//console.log(userRequest);
+	} else {
+		// notification 방식으로 보내고 싶지만 아직 user에게 notification을 보낼 수 없음.
+		// 나중에 개선시킬듯!
+		res.redirect("/login");
+	}
 }
 
 export const edit = (req, res) => res.send("Edit User");
