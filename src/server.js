@@ -33,9 +33,7 @@ app.use((req, res, next) => {
 		next();
 	});
 });
-
 app.use(localsMiddleware);
-
 
 app.set("view engine", "pug");
 app.set("views", process.cwd() + "/src/views");

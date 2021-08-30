@@ -147,12 +147,17 @@ export const getEdit = (req, res) => {
 }
 
 export const postEdit = async (req, res) => {
+	console.log("POST EDIT\n");
 	const {
 		session: {
 			user: {_id}
 		},
 		body : {name, email, username, location}
 	} = req;
+	console.log(name);
+	console.log(email);
+	console.log(username);
+	console.log(location);
 	const updatedUser = await User.findByIdAndUpdate(
 		_id,
 		{
@@ -164,7 +169,6 @@ export const postEdit = async (req, res) => {
 		{ new: true } // 업데이트된 유저를 반환하기 위해 추가한 옵션
 	);
 	req.session.user = updatedUser;
-
 	return res.redirect("/users/edit");
 }
 export const logout = (req, res) => {
