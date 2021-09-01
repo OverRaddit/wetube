@@ -147,17 +147,16 @@ export const getEdit = (req, res) => {
 }
 
 export const postEdit = async (req, res) => {
-	console.log("POST EDIT\n");
 	const {
 		session: {
 			user: {_id}
 		},
 		body : {name, email, username, location}
 	} = req;
-	console.log(name);
-	console.log(email);
-	console.log(username);
-	console.log(location);
+	if (req.session.user.email === email || req.session.user.username === username) {
+		console.log("이미 존재하는 회원 정보입니다.");
+		return res.redirect("/users/edit");
+	}
 	const updatedUser = await User.findByIdAndUpdate(
 		_id,
 		{
@@ -176,4 +175,18 @@ export const logout = (req, res) => {
 	req.session.destroy();
 	return res.redirect("/");
 };
+
+export const getChangePassword = (req, res) => {
+	// 소셜계정 사용자는 비밀번호를 바꿀 수 없다.
+	if (req.session.user.socialOnly === true) {
+		return res.redirect("/");
+	}
+	return res.render("users/change-password", {pageTitle:"Change Password"});
+}
+
+export const postChangePassword = (req, res) => {
+	// send notification
+	return res.redirect("/");
+}
+
 export const see = (req, res) => res.send("see");
