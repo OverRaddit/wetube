@@ -44,7 +44,6 @@ export const postLogin = async (req, res) => {
 	const { username, password } = req.body;
 	const pageTitle = "Login";
 	const user = await User.findOne({ username, socialOnly: false });
-	console.log(user);
 	if (!user) {
 		return res.status(400).render("login", {
 			pageTitle,
@@ -155,7 +154,6 @@ export const postEdit = async (req, res) => {
 		file,
 	} = req;
 	// 다른 회원의 이메일로 가입할수있어서 중복체크를 해줘야 하는데,,,
-	console.log(file);
 	const updatedUser = await User.findByIdAndUpdate(
 		_id,
 		{
@@ -207,4 +205,11 @@ export const postChangePassword = async (req, res) => {
 	return res.redirect("/users/logout");
 }
 
-export const see = (req, res) => res.send("see");
+export const see = async (req, res) => {
+	const { id } = req.params;
+	const user = await User.findById(id);
+	if (!user){
+		return res.status(404).render("404", {pageTitle: "User not found."});
+	}
+	return res.render("users/profile", {pageTitle: user.name, user});
+}

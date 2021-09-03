@@ -1,3 +1,4 @@
+import User from "../models/User";
 import Video from "../models/Video";
 
 export const home = async(req, res) => {
@@ -7,9 +8,12 @@ export const home = async(req, res) => {
 export const watch = async (req, res) => {
 	const { id } = req.params;
 	const video = await Video.findById(id);
+	//console.log(id);
+	const owner = await User.findById(video.owner);
+	//console.log(owner);
 	if (!video)
 		return res.status(404).render("404", {pageTitle: "Video not found."});
-	return res.render("watch", {pageTitle: video.title, video});
+	return res.render("watch", {pageTitle: video.title, video, owner});
 }
 export const getEdit = async (req, res) => {
 	const { id } = req.params;
@@ -42,7 +46,6 @@ export const search = async (req, res) => {
 				$regex: new RegExp(keyword, "i"),
 			}
 		})
-		console.log(videos);
 	}
 	return res.render("search", {pageTitle:"Search", videos});
 }
@@ -52,14 +55,18 @@ export const getUpload = (req, res) => {
 }
 
 export const postUpload = async (req, res) => {
-	const file = req.file;
+	const {
+		user: {_id}
+	} = req.session;
+	const { path: fileUrl } = req.file;
 	const { title, description, hashtags } = req.body;
 	try {
 		await Video.create({
 			title,
-			fileUrl: file ? file.path : "",
+			fileUrl: fileUrl,
 			description,
-			hashtags: Video.formatHashtags(hashtags)
+			hashtags: Video.formatHashtags(hashtags),
+			owner: _id,
 		});
 		return res.redirect("/");
 	 } catch(error){
