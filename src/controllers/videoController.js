@@ -7,13 +7,10 @@ export const home = async(req, res) => {
 }
 export const watch = async (req, res) => {
 	const { id } = req.params;
-	const video = await Video.findById(id);
-	//console.log(id);
-	const owner = await User.findById(video.owner);
-	//console.log(owner);
+	const video = await Video.findById(id).populate("owner"); // populate은 owner부분을 실제 user객체로 채워준다.
 	if (!video)
 		return res.status(404).render("404", {pageTitle: "Video not found."});
-	return res.render("watch", {pageTitle: video.title, video, owner});
+	return res.render("watch", {pageTitle: video.title, video});
 }
 export const getEdit = async (req, res) => {
 	const { id } = req.params;
