@@ -1,3 +1,5 @@
+import multer from "multer";
+
 export const localsMiddleware = (req, res, next) => {
 	console.log("미들웨어가 실행됩니다\n");
 	console.log(req.session);
@@ -22,3 +24,17 @@ export const publicOnlyMiddleware = (req, res, next) => {
 		return res.redirect("/");
 	}
 };
+
+export const avatarUpload = multer({
+	dest: "uploads/avatars/",
+	limits: {
+		fileSize: 3000000,
+	},
+ });
+
+ export const videoUpload = multer({
+	dest: "uploads/videos/",
+	limits: {
+		fileSize: 10000000,
+	},
+ });

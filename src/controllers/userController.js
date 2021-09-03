@@ -149,17 +149,17 @@ export const getEdit = (req, res) => {
 export const postEdit = async (req, res) => {
 	const {
 		session: {
-			user: {_id}
+			user: {_id, avataUrl}
 		},
-		body : {name, email, username, location}
+		body : {name, email, username, location},
+		file,
 	} = req;
-	if (req.session.user.email === email || req.session.user.username === username) {
-		console.log("이미 존재하는 회원 정보입니다.");
-		return res.redirect("/users/edit");
-	}
+	// 다른 회원의 이메일로 가입할수있어서 중복체크를 해줘야 하는데,,,
+	console.log(file);
 	const updatedUser = await User.findByIdAndUpdate(
 		_id,
 		{
+			avatarUrl: file ? file.path : avataUrl,
 			name,
 			email,
 			username,
@@ -184,9 +184,27 @@ export const getChangePassword = (req, res) => {
 	return res.render("users/change-password", {pageTitle:"Change Password"});
 }
 
-export const postChangePassword = (req, res) => {
-	// send notification
-	return res.redirect("/");
+export const postChangePassword = async (req, res) => {
+	const {
+		session: {
+			user: {_id, password},
+		},
+		body: { oldPassword, newPassword, newPasswordConfirmation },
+	} = req;
+	const user = await User.findById(_id);
+	const ok = await bcrypt.compare(oldPassword, user.password);
+	if (newPassword !== newPasswordConfirmation){
+		return res.status(400).render("users/change-password", {pageTitle:"Change Password", errorMessage: "두 비밀번호가 서로 일치하지 않습니다."});
+	}
+	if (!ok) {
+		return res.status(400).render("users/change-password", {
+			pageTitle:"Change Password",
+			errorMessage: "비밀번호가 틀렸습니다."
+		});
+	}
+	user.password = newPassword;
+	await user.save();
+	return res.redirect("/users/logout");
 }
 
 export const see = (req, res) => res.send("see");

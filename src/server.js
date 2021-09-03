@@ -39,6 +39,7 @@ app.set("view engine", "pug");
 app.set("views", process.cwd() + "/src/views");
 app.use("/", rootRouter);
 app.use("/users", userRouter);
+app.use("/uploads", express.static("uploads"));
 app.use("/videos", videoRouter);
 
 export default app;

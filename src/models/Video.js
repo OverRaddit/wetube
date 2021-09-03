@@ -5,6 +5,7 @@ export const formatHashtags = (hashtags) =>
 
 const videoSchema = new mongoose.Schema({
 	title: {type: String, required:true },
+	fileUrl: {type:String, required: true},
 	description: {type: String, required:true },
 	createdAt: {type: Date, required:true, default: Date.now },
 	hashtags: [{type: String}],
